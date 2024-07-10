@@ -19,6 +19,10 @@ export type TGraph = {
     width?: number;
     height?: number;
     WIN: TWIN;
+    callbacks: {
+        mouseup: (event:MouseEvent) => void;
+        mousedown: (event:MouseEvent) => void;
+    };
 }
 
 class Graph {
@@ -27,7 +31,7 @@ class Graph {
     private PI2 = 2 * Math.PI;
     private WIN: TWIN;
 
-    constructor({ id, width = 300, height = 300, WIN}: TGraph) {
+    constructor({ id, width = 300, height = 300, WIN,callbacks}: TGraph) {
         if (id) {
             this.canvas = document.getElementById(id) as HTMLCanvasElement;
         } else {
@@ -40,7 +44,10 @@ class Graph {
         this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
         this.WIN = WIN;
 
-       
+        const { mouseup, mousedown} = callbacks;
+        this.canvas.addEventListener("mouseup", mouseup);
+        this.canvas.addEventListener("mousedown", mousedown);
+        //this.canvas.addEventListener("click", click);
     }
 
     xs(x: number): number {

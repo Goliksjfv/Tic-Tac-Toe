@@ -12,9 +12,20 @@ const Game = () =>{
     }
     let graph: Graph | null = null;
     const [getGraph, cancelGraph] = useGraph(render);
+    let field=[];
 
    
+    const mouseup = () => {
+        
+    };
 
+    const mousedown = (event:MouseEvent) => {
+        if(!graph){
+            return;
+        }
+        console.log(graph.sx(event.clientX)-30);
+        console.log(-(graph.sy(event.clientY)-10)); 
+    };
     
 
     function render(): void {
@@ -35,8 +46,8 @@ const Game = () =>{
             WIN,
             id: 'canvas',
             width: 500,
-            height: 500
-           
+            height: 500,
+            callbacks: { mouseup, mousedown }
         });
 
         return () => {
