@@ -12,7 +12,11 @@ const Game = () =>{
     }
     let graph: Graph | null = null;
     const [getGraph, cancelGraph] = useGraph(render);
-    let field=[];
+    let field:boolean[]=[];
+    for(let i=0;i<9;i++){
+        field[i]=false;
+    }
+    let coord=[{x:-6,y:6},{x:-6,y:6},{x:-6,y:6},{x:-6,y:6},{x:-6,y:6},{x:-6,y:6},{x:-6,y:6},{x:-6,y:6},{x:-6,y:6}];
 
    
     const mouseup = () => {
@@ -22,6 +26,13 @@ const Game = () =>{
     const mousedown = (event:MouseEvent) => {
         if(!graph){
             return;
+        }
+        const x = graph.sx(event.clientX)-30;
+        const y = -(graph.sy(event.clientY)-10);
+        if(x<-3){
+            if(y>3){
+                field[0]=true;
+            }
         }
         console.log(graph.sx(event.clientX)-30);
         console.log(-(graph.sy(event.clientY)-10)); 
@@ -33,11 +44,16 @@ const Game = () =>{
             return;
         }
         graph.clear();
-        let i=1;
+        
             
-            printField();
-            printCross(0,0);
-            printZero(0,0);
+        printField();
+        for (let i=0;i<9;i++){
+            if (field[i]===true){
+                printCross(coord[i].x,coord[i].y);
+            }
+        }
+        //printCross(0,0);
+        //printZero(0,0);
             
     };
     useEffect(() => {
